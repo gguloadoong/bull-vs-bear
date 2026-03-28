@@ -13,7 +13,8 @@
         "기본 라우팅 (/, /result) 작동",
         "TypeScript 에러 없음"
       ],
-      "gate": false
+      "gate": false,
+      "passes": true
     },
     {
       "id": "MVP-002",
@@ -27,7 +28,8 @@
         "모바일 375px 기준 레이아웃 정상",
         "글래스모피즘 카드 효과 적용"
       ],
-      "gate": false
+      "gate": false,
+      "passes": true
     },
     {
       "id": "MVP-003",
@@ -41,7 +43,8 @@
         "새로고침 후에도 선택 유지 (localStorage)",
         "선택 취소/변경 불가 (1일 1선택)"
       ],
-      "gate": false
+      "gate": false,
+      "passes": true
     },
     {
       "id": "MVP-004",
@@ -56,7 +59,23 @@
         "카카오톡 공유 버튼 작동 (Web Share API fallback)",
         "카드 이미지 다운로드 버튼"
       ],
-      "gate": false
+      "gate": false,
+      "passes": true
+    },
+    {
+      "id": "FIX-001",
+      "phase": 1,
+      "title": "VALIDATE-001 게이트 수정: Critical 버그 4건",
+      "description": "1) 자산 선택이 결과에 영향 없음 (assetId를 seed에 포함), 2) UTC 날짜 버그 (KST 기준으로 변경), 3) Mock 자산 3→8개 + 날짜별 변동률 다르게, 4) 가상게임 면책 문구 추가",
+      "acceptance": [
+        "resolveResult seed에 assetId 포함 — 같은 날 다른 자산 선택 시 다른 수익률",
+        "getTodayDate()가 KST 기준 YYYY-MM-DD 반환",
+        "MOCK_ASSETS 8개 이상, 매일 3개 선별, 날짜별 다른 mock 변동률",
+        "면책 문구 UI에 표시 (하단 고정 또는 첫 화면)",
+        "npm run build 성공"
+      ],
+      "gate": false,
+      "passes": true
     },
     {
       "id": "VALIDATE-001",
@@ -69,7 +88,8 @@
         "qa-tester (sonnet): 핵심 플로우 end-to-end 작동하는가?",
         "CEO: '이게 내가 원하던 거야' 확인"
       ],
-      "gate": true
+      "gate": true,
+      "passes": true
     },
     {
       "id": "HARDEN-001",

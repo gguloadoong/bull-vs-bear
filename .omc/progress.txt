@@ -1,0 +1,14 @@
+# GrowMoney Ralph Progress
+
+## Session Start: 2026-03-28
+Project: 돈키우기 (GrowMoney) - 토스 미니앱 MVP
+Working Directory: /Users/bong/grow-money
+
+## Stories
+- [ ] MVP-001: 프로젝트 초기화
+- [ ] MVP-002: 메인 화면 (mock 데이터)
+- [ ] MVP-003: 투자 선택 플로우
+- [ ] MVP-004: 결과 확인 + 공유 카드 생성
+- [ ] VALIDATE-001: MVP Gate
+
+## Current: MVP-001
