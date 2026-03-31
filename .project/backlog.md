@@ -1,11 +1,12 @@
 # Backlog
 
-## Phase 1 — MVP (mock data)
-- [ ] MVP-001: 프로젝트 초기화 (패키지, 라우팅, 레이아웃, 디자인 시스템)
-- [ ] MVP-002: 메인 화면 (가상 자산 현황, 오늘의 선택지 3개, mock 데이터)
-- [ ] MVP-003: 투자 선택 플로우 (선택 → 애니메이션 → 결과 대기)
-- [ ] MVP-004: 결과 확인 + 공유 카드 생성 (html-to-image + 카카오톡 공유)
-- [ ] VALIDATE-001: MVP Gate — architect/critic/qa-tester 병렬 리뷰
+## Phase 1 — MVP ✅ 완료 (v4.0.0)
+- [x] MVP-001: 프로젝트 초기화 (Vite+React+TS, Tailwind, Jotai, Framer Motion)
+- [x] MVP-002: BattleArena — typewriter 토론, 캐릭터 애니메이션, 투표 UI
+- [x] MVP-003: 투표 플로우 (Bull/Bear 선택 → 커뮤니티 투표율 → 자정 카운트다운)
+- [x] MVP-004: 결과 화면 (판정근거+공유카드+스트릭), 온보딩 3단계
+- [x] VALIDATE-001: architect 검증 통과, 빌드 ✅ 테스트 32/32 ✅
+- [x] IMPROVE-001~010: 품질 개선 10건 (주제 30개, 마일스톤 모달, 공유카드 고도화 등)
 
 ## Phase 2 — Harden (real APIs)
 - [ ] HARDEN-001: 실제 시장 데이터 API 연동 (주가/환율/금)
