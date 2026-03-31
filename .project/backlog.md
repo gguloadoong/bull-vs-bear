@@ -9,13 +9,13 @@
 - [x] IMPROVE-001~010: 품질 개선 10건 (주제 30개, 마일스톤 모달, 공유카드 고도화 등)
 
 ## Phase 2 — Harden (real APIs)
-- [ ] HARDEN-001: 실제 시장 데이터 API 연동 (주가/환율/금)
-- [ ] HARDEN-002: Supabase 실시간 랭킹 시스템
-- [ ] HARDEN-003: 토스 SDK 연동 (toss_user_id, 공유)
-- [ ] HARDEN-004: 에러 핸들링 + 로딩 상태
-- [ ] HARDEN-005: 테스트 작성
-- [ ] HARDEN-006: 보안 감사
-- [ ] VALIDATE-002: Production Gate
+- [ ] HARDEN-001: 실제 시장 데이터 API 연동 ⚠️ CEO 필요 (API 키)
+- [ ] HARDEN-002: Supabase 실시간 랭킹 시스템 ⚠️ CEO 필요 (Supabase 프로젝트)
+- [ ] HARDEN-003: 토스 SDK 연동 ⚠️ CEO 필요 (앱인토스 계정)
+- [x] HARDEN-004: 에러 핸들링 + 로딩 상태 (OfflineBanner, PageLoader, 공유오류 토스트)
+- [x] HARDEN-005: 테스트 확장 (32 → 42개, 데이터 완결성 전수검사)
+- [x] HARDEN-006: 보안 감사 (CSP unsafe-inline 제거, localStorage 검증, 취약점 0개)
+- [ ] VALIDATE-002: Production Gate (HARDEN-001~003 완료 후)
 
 ## Phase 3 — Ship
 - [ ] SHIP-001: 앱인토스 심사 제출 + 스모크 테스트 + 레트로
