@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { toPng } from 'html-to-image'
 import { useAtom } from 'jotai'
@@ -15,6 +15,7 @@ export default function BattleResultPage() {
   const navigate = useNavigate()
   const shareCardRef = useRef<HTMLDivElement>(null)
   const [isCapturing, setIsCapturing] = useState(false)
+  const [shareError, setShareError] = useState(false)
   const [showMilestone, setShowMilestone] = useState(false)
   const [milestoneStreak, setMilestoneStreak] = useState(0)
   const [battleState, setBattleState] = useAtom(battleStateAtom)
@@ -71,6 +72,8 @@ export default function BattleResultPage() {
       }
     } catch (err) {
       console.error('Share failed:', err)
+      setShareError(true)
+      setTimeout(() => setShareError(false), 3000)
     } finally {
       setIsCapturing(false)
     }
@@ -442,6 +445,20 @@ export default function BattleResultPage() {
         >
           {isCapturing ? '카드 생성 중...' : '📤 결과 공유하기'}
         </motion.button>
+
+        <AnimatePresence>
+          {shareError && (
+            <motion.p
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="text-center text-xs mt-2"
+              style={{ color: '#FF6B6B' }}
+            >
+              ⚠️ 공유에 실패했어요. 다시 시도해주세요.
+            </motion.p>
+          )}
+        </AnimatePresence>
 
         <motion.button
           initial={{ opacity: 0 }}
