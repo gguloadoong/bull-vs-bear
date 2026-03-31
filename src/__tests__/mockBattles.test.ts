@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getTodayBattle, getBattleResult, getResultReaction } from '../data/mockBattles'
+import { getTodayBattle, getBattleResult, getResultReaction, getWinReason, getLoserExcuse } from '../data/mockBattles'
 import {
   getTodayDate,
   getYesterdayDate,
@@ -184,5 +184,96 @@ describe('battleStore 스트릭 계산', () => {
       v.date === yesterday ? { ...v, correct: won } : v
     )
     expect(updated[0].correct).toBe(true)
+  })
+})
+
+// ─── 전체 TOPICS 데이터 완결성 검사 ─────────────────────────────────────────
+
+describe('mockBattles 데이터 완결성', () => {
+  // 충분히 다양한 날짜로 모든 주제를 순회 (365일: bull/bear 모두 포함)
+  const testDates: string[] = []
+  for (let i = 0; i < 365; i++) {
+    const d = new Date('2026-01-01')
+    d.setDate(d.getDate() + i)
+    testDates.push(d.toISOString().slice(0, 10))
+  }
+
+  it('모든 날짜에서 topic.bullWinReason 존재', () => {
+    for (const date of testDates) {
+      const { topic } = getTodayBattle(date)
+      expect(topic.bullWinReason, `${date} bullWinReason`).toBeTruthy()
+    }
+  })
+
+  it('모든 날짜에서 topic.bearWinReason 존재', () => {
+    for (const date of testDates) {
+      const { topic } = getTodayBattle(date)
+      expect(topic.bearWinReason, `${date} bearWinReason`).toBeTruthy()
+    }
+  })
+
+  it('모든 날짜에서 bullLoserExcuse 3개 이상', () => {
+    for (const date of testDates) {
+      const { topic } = getTodayBattle(date)
+      expect(topic.bullLoserExcuse.length, `${date} bullLoserExcuse`).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  it('모든 날짜에서 bearLoserExcuse 3개 이상', () => {
+    for (const date of testDates) {
+      const { topic } = getTodayBattle(date)
+      expect(topic.bearLoserExcuse.length, `${date} bearLoserExcuse`).toBeGreaterThanOrEqual(3)
+    }
+  })
+
+  it('모든 날짜에서 rounds가 정확히 5개', () => {
+    for (const date of testDates) {
+      const { rounds } = getTodayBattle(date)
+      expect(rounds).toHaveLength(5)
+    }
+  })
+
+  it('365일 중 bull/bear 승리가 모두 나타남', () => {
+    const results = testDates.map(d => getTodayBattle(d).result)
+    expect(results).toContain('bull')
+    expect(results).toContain('bear')
+  })
+})
+
+// ─── getWinReason / getLoserExcuse ──────────────────────────────────────────
+
+describe('getWinReason / getLoserExcuse', () => {
+  it('getWinReason이 bull 승리 시 bullWinReason 반환', () => {
+    const dates = ['2026-01-01','2026-02-01','2026-03-01','2026-04-01','2026-05-01','2026-06-01']
+    const bullWinDate = dates.find(d => getTodayBattle(d).result === 'bull')
+    if (bullWinDate) {
+      const reason = getWinReason(bullWinDate)
+      expect(reason).toBe(getTodayBattle(bullWinDate).topic.bullWinReason)
+    }
+  })
+
+  it('getWinReason이 bear 승리 시 bearWinReason 반환', () => {
+    const dates = ['2026-01-01','2026-02-01','2026-03-01','2026-04-01','2026-05-01','2026-06-01']
+    const bearWinDate = dates.find(d => getTodayBattle(d).result === 'bear')
+    if (bearWinDate) {
+      const reason = getWinReason(bearWinDate)
+      expect(reason).toBe(getTodayBattle(bearWinDate).topic.bearWinReason)
+    }
+  })
+
+  it('getLoserExcuse가 losing side excuse 반환', () => {
+    const date = '2026-03-15'
+    const { result, topic } = getTodayBattle(date)
+    const losingSide = result === 'bull' ? 'bear' : 'bull'
+    const excuse = getLoserExcuse(date, losingSide)
+    const excuseList = losingSide === 'bull' ? topic.bullLoserExcuse : topic.bearLoserExcuse
+    expect(excuseList).toContain(excuse)
+  })
+
+  it('getWinReason은 비어있지 않은 문자열 반환', () => {
+    const testDates = ['2026-01-01','2026-03-15','2026-06-01','2026-12-31']
+    for (const date of testDates) {
+      expect(getWinReason(date).length).toBeGreaterThan(0)
+    }
   })
 })
