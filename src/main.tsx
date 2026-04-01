@@ -2,12 +2,15 @@ import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
+import TabLayout from './components/TabLayout.tsx'
 import OfflineBanner from './components/OfflineBanner.tsx'
 import BattlePage from './pages/BattlePage.tsx'
 import './index.css'
 
 const BattleResultPage = lazy(() => import('./pages/BattleResultPage.tsx'))
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage.tsx'))
+const FeedPage = lazy(() => import('./pages/FeedPage.tsx'))
+const MyRecordPage = lazy(() => import('./pages/MyRecordPage.tsx'))
 
 function RootRedirect() {
   const done = localStorage.getItem('bvb_onboarding_done')
@@ -41,7 +44,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<RootRedirect />} />
+            <Route path="/" element={<TabLayout><RootRedirect /></TabLayout>} />
+            <Route path="/feed" element={<TabLayout><FeedPage /></TabLayout>} />
+            <Route path="/my-record" element={<TabLayout><MyRecordPage /></TabLayout>} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/result" element={<BattleResultPage />} />
           </Routes>

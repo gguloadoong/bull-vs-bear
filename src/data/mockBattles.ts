@@ -836,3 +836,31 @@ export function getLoserExcuse(date: string, losingSide: 'bull' | 'bear'): strin
   const idx = Math.abs(Math.floor(lcg(seed + 3) * excuses.length)) % excuses.length
   return excuses[idx]
 }
+
+// ─── 피드용 헬퍼 함수 ──────────────────────────────────────────────────────
+
+export function getHotTopics(date: string, count: number = 10): BattleTopic[] {
+  const seed = dateToSeed(date)
+  const indices: number[] = []
+  let s = seed
+  while (indices.length < Math.min(count, TOPICS.length)) {
+    s = ((s * 1664525 + 1013904223) >>> 0)
+    const idx = s % TOPICS.length
+    if (!indices.includes(idx)) indices.push(idx)
+  }
+  return indices.map(i => TOPICS[i])
+}
+
+export function getSimulatedChange(topicId: string, date: string, hour: number): number {
+  const topicSeed = topicId.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+  const seed = dateToSeed(date) + hour * 7919 + topicSeed
+  const val = ((seed * 1664525 + 1013904223) >>> 0) / 0xffffffff
+  return Math.round((val * 10 - 5) * 10) / 10  // -5.0 ~ +5.0%
+}
+
+export function getFeedCommunityPercent(topicId: string, date: string): number {
+  const topicSeed = topicId.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+  const seed = dateToSeed(date) + topicSeed * 31337
+  const val = ((seed * 1664525 + 1013904223) >>> 0) / 0xffffffff
+  return Math.round(val * 30 + 45)  // 45~75
+}

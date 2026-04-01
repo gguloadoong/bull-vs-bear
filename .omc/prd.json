@@ -1,151 +1,77 @@
 {
-  "project": "돈키우기 (GrowMoney)",
-  "version": "1.0.0",
+  "project": "Bull vs Bear (GrowMoney) — 상시 컨텐츠 확장 v5.0.0",
+  "version": "5.0.0",
   "stories": [
     {
-      "id": "MVP-001",
-      "phase": 1,
-      "title": "프로젝트 초기화",
-      "description": "React + Vite + TypeScript + Tailwind + Framer Motion + Jotai 설치. 라우팅 설정, 기본 레이아웃 (딥네이비 다크 테마), 디자인 토큰 (라임그린/골드/글래스모피즘) 설정.",
+      "id": "FEED-001",
+      "phase": 2,
+      "title": "피드 데이터 레이어 — 시뮬레이션 가격 + 피드 투표 store",
       "acceptance": [
-        "npm run dev 실행됨",
-        "딥네이비 배경 + 라임그린 포인트 색상 적용",
-        "기본 라우팅 (/, /result) 작동",
-        "TypeScript 에러 없음"
-      ],
-      "gate": false,
-      "passes": true
-    },
-    {
-      "id": "MVP-002",
-      "phase": 1,
-      "title": "메인 화면 (mock 데이터)",
-      "description": "가상 자산 현황 카드 (시작 10,000원, 현재 수익률), 오늘의 투자 선택지 3개 (삼성전자/미국채/금 mock), 스트릭 카운터. 글래스모피즘 카드 + Framer Motion 애니메이션.",
-      "acceptance": [
-        "가상 자산 현황 카드 표시 (금액 + 수익률 %)",
-        "선택지 3개 카드 표시 (각각 자산명 + mock 변동률)",
-        "스트릭 카운터 표시",
-        "모바일 375px 기준 레이아웃 정상",
-        "글래스모피즘 카드 효과 적용"
-      ],
-      "gate": false,
-      "passes": true
-    },
-    {
-      "id": "MVP-003",
-      "phase": 1,
-      "title": "투자 선택 플로우",
-      "description": "선택지 탭 → 확인 애니메이션 (Framer Motion) → '내일 결과 확인' 상태. 오늘 이미 선택한 경우 '완료' 상태 표시. localStorage로 선택 기록 저장.",
-      "acceptance": [
-        "선택지 탭 시 선택 애니메이션 작동",
-        "선택 확인 시 '내일 결과 확인!' 화면 전환",
-        "이미 선택한 날 재진입 시 '오늘 완료' 상태",
-        "새로고침 후에도 선택 유지 (localStorage)",
-        "선택 취소/변경 불가 (1일 1선택)"
-      ],
-      "gate": false,
-      "passes": true
-    },
-    {
-      "id": "MVP-004",
-      "phase": 1,
-      "title": "결과 확인 + 공유 카드 생성",
-      "description": "다음 날 결과 화면: mock 수익률 적용, 누적 자산 업데이트. html-to-image로 공유 카드 생성 (자산 현황 + 수익률 + '상위 N%' 텍스트). 카카오톡 공유 버튼.",
-      "acceptance": [
-        "결과 화면에서 오늘 수익률 표시 (mock)",
-        "누적 자산 금액 업데이트",
-        "공유 카드 이미지 생성 성공 (html-to-image)",
-        "카드에 수익률 + 상위 N% 텍스트 포함",
-        "카카오톡 공유 버튼 작동 (Web Share API fallback)",
-        "카드 이미지 다운로드 버튼"
-      ],
-      "gate": false,
-      "passes": true
-    },
-    {
-      "id": "FIX-001",
-      "phase": 1,
-      "title": "VALIDATE-001 게이트 수정: Critical 버그 4건",
-      "description": "1) 자산 선택이 결과에 영향 없음 (assetId를 seed에 포함), 2) UTC 날짜 버그 (KST 기준으로 변경), 3) Mock 자산 3→8개 + 날짜별 변동률 다르게, 4) 가상게임 면책 문구 추가",
-      "acceptance": [
-        "resolveResult seed에 assetId 포함 — 같은 날 다른 자산 선택 시 다른 수익률",
-        "getTodayDate()가 KST 기준 YYYY-MM-DD 반환",
-        "MOCK_ASSETS 8개 이상, 매일 3개 선별, 날짜별 다른 mock 변동률",
-        "면책 문구 UI에 표시 (하단 고정 또는 첫 화면)",
+        "mockBattles.ts에 getHotTopics(date, count) 함수 추가 — 날짜 시드로 30개 중 N개 선택",
+        "mockBattles.ts에 getSimulatedChange(topicId, date, hour) 함수 추가 — -5~+5% 반환",
+        "feedStore.ts 생성 — feedVotesAtom (localStorage 'bvb_feed_votes', Record<string, 'bull'|'bear'>)",
+        "feedStore.ts에 getFeedCommunityPercent(topicId, date) 함수 추가 — 45~75% 시드 기반",
         "npm run build 성공"
       ],
       "gate": false,
       "passes": true
     },
     {
-      "id": "VALIDATE-001",
-      "phase": 1,
-      "title": "MVP Gate",
-      "description": "Phase 1 완료 검증. architect/critic/qa-tester 병렬 리뷰.",
+      "id": "FEED-002",
+      "phase": 2,
+      "title": "피드 탭 UI — FeedPage + MarketFeedCard",
       "acceptance": [
-        "architect (opus): Phase 2 확장 가능한 구조인가?",
-        "critic (opus): essence.md의 Why를 코드가 구현했는가? (1-10점)",
-        "qa-tester (sonnet): 핵심 플로우 end-to-end 작동하는가?",
-        "CEO: '이게 내가 원하던 거야' 확인"
+        "src/pages/FeedPage.tsx 존재",
+        "src/components/MarketFeedCard.tsx 존재",
+        "FeedPage 상단에 전체 시황 요약 배너 표시 (강세/약세 퍼센트)",
+        "MarketFeedCard: 종목 이모지+이름, 시뮬레이션 가격 변동(빨/초록 색상), Bull/Bear AI 한마디, 투표 버튼+바",
+        "이미 투표한 종목은 투표 버튼 비활성화 + 선택 표시",
+        "npm run build 성공"
       ],
-      "gate": true,
+      "gate": false,
       "passes": true
     },
     {
-      "id": "HARDEN-001",
+      "id": "FEED-003",
       "phase": 2,
-      "title": "실제 시장 데이터 API 연동",
-      "description": "주가/환율/금 실시간 데이터 API 연동. mock 데이터를 실제 API로 교체. Supabase Edge Function으로 프록시.",
-      "gate": false
-    },
-    {
-      "id": "HARDEN-002",
-      "phase": 2,
-      "title": "Supabase 사용자 데이터 + 랭킹",
-      "description": "toss_user_id 기반 사용자 데이터 영속화. 전체 랭킹 시스템. 상위 N% 실제 계산.",
-      "gate": false
-    },
-    {
-      "id": "HARDEN-003",
-      "phase": 2,
-      "title": "에러 핸들링 + 로딩 상태",
-      "description": "API 실패 시 graceful fallback. 스켈레톤 로딩. 네트워크 오프라인 처리.",
-      "gate": false
-    },
-    {
-      "id": "HARDEN-004",
-      "phase": 2,
-      "title": "테스트 작성",
-      "description": "핵심 플로우 단위 테스트. 공유 카드 생성 테스트. 선택/결과 로직 테스트.",
-      "gate": false
-    },
-    {
-      "id": "HARDEN-005",
-      "phase": 2,
-      "title": "보안 감사",
-      "description": "XSS 방지, 입력 검증, 시크릿 노출 없음, 앱인토스 정책 준수 확인.",
-      "gate": false
-    },
-    {
-      "id": "VALIDATE-002",
-      "phase": 2,
-      "title": "Production Gate",
-      "description": "Phase 2 완료 검증. 실제 API 작동, 테스트 통과, 보안 감사 완료.",
+      "title": "내 기록 탭 — MyRecordPage",
       "acceptance": [
-        "실제 시장 데이터 연동 확인",
-        "랭킹 시스템 정확성 확인",
-        "모든 테스트 통과",
-        "보안 감사 클리어",
-        "앱인토스 심사 체크리스트 통과"
+        "src/pages/MyRecordPage.tsx 존재",
+        "상단 통계 카드: 적중률%, 맞춘횟수, 총참여, 연승 4개 수치 표시",
+        "투표 히스토리 리스트: 날짜/종목이모지+이름/내선택(Bull/Bear)/결과/맞춤여부",
+        "빈 상태 처리: 기록 없을 때 '아직 참여 기록이 없어요' 메시지",
+        "npm run build 성공"
       ],
-      "gate": true
+      "gate": false,
+      "passes": true
     },
     {
-      "id": "SHIP-001",
-      "phase": 3,
-      "title": "배포 + 스모크 테스트 + 레트로",
-      "description": "Vercel 프로덕션 배포. 앱인토스 심사 제출. 스모크 테스트. 레트로 작성.",
-      "gate": false
+      "id": "FEED-004",
+      "phase": 2,
+      "title": "탭 네비게이션 — TabLayout + 라우팅 연결",
+      "acceptance": [
+        "src/components/TabLayout.tsx 존재 — 하단 고정 탭바 (⚔️배틀 / 📊피드 / 👤내기록)",
+        "현재 탭 라임그린 하이라이트, 비활성 탭 white/40",
+        "main.tsx에 /feed, /my-record 라우트 추가, lazy import 적용",
+        "BattlePage + FeedPage + MyRecordPage 모두 TabLayout으로 감싸짐",
+        "BattleResultPage + OnboardingPage는 탭바 없이 풀스크린 유지",
+        "npm run build 성공, npm test 전체 PASS"
+      ],
+      "gate": false,
+      "passes": true
+    },
+    {
+      "id": "VALIDATE-004",
+      "phase": 2,
+      "title": "최종 검증 Gate",
+      "acceptance": [
+        "npm test 전체 PASS",
+        "npm run build 성공",
+        "FEED-001~004 모두 passes: true",
+        "3개 탭 라우팅 정상 작동 확인 (/ /feed /my-record)"
+      ],
+      "gate": true,
+      "passes": true
     }
   ]
 }
