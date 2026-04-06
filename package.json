@@ -1,5 +1,5 @@
 {
-  "name": "grow-money",
+  "name": "bull-vs-bear",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,9 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.100.1",
+    "@apps-in-toss/web-framework": "^2.4.1",
+    "@supabase/supabase-js": "^2.101.1",
+    "@toss/tds-mobile": "^2.3.0",
     "framer-motion": "^11.0.0",
     "html-to-image": "^1.11.11",
     "jotai": "^2.0.0",
